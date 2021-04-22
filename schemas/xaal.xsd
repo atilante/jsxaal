@@ -1,0 +1,1028 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- This is the full XML schema of XAAL in a single file. -->
+
+  <!-- xaal.xsd =========================================================== -->
+  <xs:element name="xaal">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="metadata" type="metadata" minOccurs="0"/>
+        <xs:element name="defs" type="defs" minOccurs="0"/>
+        <xs:element name="initial" type="initial" minOccurs="0"/>
+        <xs:element name="animation" type="animation" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="version" type="xs:token" default="0.1"/>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="animation">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:group ref="all-operations"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="defs">
+    <xs:sequence>
+      <xs:element name="option" type="general-option" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="style" type="style" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="define-shape" type="define-shape" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="general-option">
+    <xs:attribute name="value" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="initial">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:group ref="all-graphics"/>
+      <xs:group ref="structures"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- metadata.xsd ======================================================= -->
+  <xs:complexType name="animation-info">
+    <xs:sequence>
+      <xs:element name="title" type="contents" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="subject" type="contents" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="desc" type="xhtml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="keyword" type="contents" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="application">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="version" type="xs:string" minOccurs="0"/>
+      <xs:element name="homepage" type="xs:anyURI" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="author">
+    <xs:sequence>
+      <xs:element name="firstname" type="xs:string"/>
+      <xs:element name="lastname" type="xs:string"/>
+      <xs:element name="affiliation" type="xs:string" minOccurs="0"/>
+      <xs:element name="email" type="xs:string" minOccurs="0"/>0
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="metadata">
+    <xs:sequence>
+      <xs:element name="author" type="author" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="application" type="application" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="animation-info" type="animation-info" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- xaal-graphical-animation.xsd ======================================= -->
+
+  <xs:complexType name="along-object">
+    <xs:attribute name="id" type="xs:IDREF"/>
+  </xs:complexType>
+
+  <xs:complexType name="change-property">
+    <xs:sequence>
+      <xs:element name="object-ref" type="object-ref" maxOccurs="unbounded"/>
+      <xs:element name="timing" type="timing" minOccurs="0"/>
+      <xs:element name="property" type="property"/>
+    </xs:sequence>
+    <xs:attribute name="type" type="xs:token" use="optional"/>
+    <xs:attributeGroup ref="animation-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="change-style">
+    <xs:sequence>
+      <xs:element name="object-ref" type="object-ref" maxOccurs="unbounded"/>
+      <xs:element name="timing" type="timing" minOccurs="0"/>
+      <xs:element name="style" type="style" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="animation-attributes"/>
+    <xs:attribute name="style-ref" type="xs:IDREF"/>
+  </xs:complexType>
+
+  <xs:complexType name="hide">
+    <xs:complexContent>
+      <xs:extension base="show"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="keypoints">
+    <xs:sequence>
+      <xs:element name="coordinate" type="coordinate" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="move">
+    <xs:sequence>
+      <xs:element name="object-ref" type="object-ref" maxOccurs="unbounded"/>
+      <xs:element name="timing" type="timing" minOccurs="0"/>
+      <xs:element name="coordinate" type="coordinate" minOccurs="0"/>
+      <xs:element name="keypoints" type="keypoints" minOccurs="0"/>
+      <xs:element name="along-object" type="along-object" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="type" type="move-type"/>
+    <xs:attributeGroup ref="animation-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="property">
+    <xs:attribute name="value" type="xs:token" use="required"/>
+    <xs:attribute name="type" type="xs:token" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="rotate">
+    <xs:sequence>
+      <xs:element name="object-ref" type="object-ref" maxOccurs="unbounded"/>
+      <xs:element name="timing" type="timing" minOccurs="0"/>
+      <xs:element name="coordinate" type="coordinate"/>
+    </xs:sequence>
+    <xs:attribute name="degree" type="xs:int" use="required"/>
+    <xs:attribute name="type" type="rotate-type" default="simple"/>
+    <xs:attributeGroup ref="animation-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="scale">
+    <xs:sequence>
+      <xs:element name="object-ref" type="object-ref" maxOccurs="unbounded"/>
+      <xs:element name="timing" type="timing" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="scale" type="xs:double" use="required"/>
+    <xs:attributeGroup ref="animation-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="show">
+    <xs:sequence>
+      <xs:element name="object-ref" type="object-ref" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="timing" type="timing" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="type" type="visibility-type" default="selected"/>
+    <xs:attributeGroup ref="animation-attributes"/>
+  </xs:complexType>
+
+  <xs:group name="all-graphical-operations">
+    <xs:choice>
+      <xs:element name="change-property" type="change-property" minOccurs="0"/>
+      <xs:element name="change-style" type="change-style" minOccurs="0"/>
+      <xs:element name="hide" type="hide" minOccurs="0"/>
+      <xs:element name="move" type="move" minOccurs="0"/>
+      <xs:element name="rotate" type="rotate" minOccurs="0"/>
+      <xs:element name="scale" type="scale" minOccurs="0"/>
+      <xs:element name="show" type="show" minOccurs="0"/>
+    </xs:choice>
+  </xs:group>
+
+  <xs:simpleType name="move-type">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="move"/>
+      <xs:enumeration value="translate"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="rotate-type">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="simple"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="visibility-type">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="all"/>
+      <xs:enumeration value="allBut"/>
+      <xs:enumeration value="selected"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- xaal-graphics.xsd -->
+
+  <xs:attributeGroup name="font-attributes">
+    <xs:attribute name="family" use="optional">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="Serif"/>
+          <xs:enumeration value="SansSerif"/>
+          <xs:enumeration value="Monospaced"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="size" type="xs:positiveInteger" use="optional"/>
+    <xs:attribute name="bold" type="xs:boolean" default="false"/>
+    <xs:attribute name="italic" type="xs:boolean" default="false"/>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="general-attributes">
+    <xs:attribute name="id" type="xs:ID" use="optional"/>
+    <xs:attribute name="hidden" type="xs:boolean" default="false"/>
+    <xs:attribute name="opacity" type="opacity" default="1"/>
+    <xs:attribute name="style" type="xs:IDREF" use="optional"/>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="location-attributes">
+    <xs:attribute name="x" type="xs:int" use="optional"/>
+    <xs:attribute name="y" type="xs:int" use="optional"/>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="stroke-attributes">
+    <xs:attribute name="type" type="stroke-type" use="optional" default="solid"/>
+    <xs:attribute name="width" type="xs:positiveInteger" use="optional" default="1"/>
+  </xs:attributeGroup>
+
+  <xs:complexType name="alignment">
+    <xs:attribute name="value" default="left">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="left"/>
+          <xs:enumeration value="right"/>
+          <xs:enumeration value="centered"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="angle">
+    <xs:attribute name="total" type="xs:int" use="required"/>
+    <xs:attribute name="start" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="arc">
+    <xs:sequence>
+      <xs:element name="center" type="center"/>
+      <xs:element name="radius" type="radius"/>
+      <xs:element name="angle" type="angle"/>
+      <xs:element name="depth" type="depth" minOccurs="0"/>
+      <xs:element name="style" type="style" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="general-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="arrow">
+    <xs:attribute name="forward" type="xs:boolean" default="false"/>
+    <xs:attribute name="backward" type="xs:boolean" default="false"/>
+  </xs:complexType>
+
+  <xs:complexType name="boolean-value">
+    <xs:attribute name="value" type="xs:boolean" default="false"/>
+  </xs:complexType>
+
+  <xs:complexType name="center">
+    <xs:complexContent>
+      <xs:extension base="coordinate"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="circle">
+    <xs:sequence>
+      <xs:element name="center" type="center"/>
+      <xs:element name="radius" type="radius"/>
+      <xs:element name="depth" type="depth" minOccurs="0"/>
+      <xs:element name="style" type="style" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="general-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="circle-segment">
+    <xs:sequence>
+      <xs:element name="center" type="center"/>
+      <xs:element name="radius" type="radius"/>
+      <xs:element name="angle" type="angle"/>
+      <xs:element name="depth" type="depth" minOccurs="0"/>
+      <xs:element name="style" type="style" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="general-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="color">
+    <xs:attribute name="red" type="rgb-value" use="optional"/>
+    <xs:attribute name="green" type="rgb-value" use="optional"/>
+    <xs:attribute name="blue" type="rgb-value" use="optional"/>
+    <xs:attribute name="name" type="color-name" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="coordinate">
+    <xs:sequence>
+      <xs:element name="offset" type="offset" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="location-attributes"/>
+    <xs:attribute name="id" type="xs:ID" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="define-shape">
+    <xs:sequence maxOccurs="unbounded">
+      <xs:group ref="all-graphics"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:ID"/>
+  </xs:complexType>
+
+  <xs:complexType name="depth">
+    <xs:attribute name="value" type="xs:nonNegativeInteger" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="ellipse">
+    <xs:sequence>
+      <xs:element name="center" type="center"/>
+      <xs:element name="radius" type="radius"/>
+      <xs:element name="depth" type="depth" minOccurs="0"/>
+      <xs:element name="style" type="style" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="general-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="font">
+    <xs:attributeGroup ref="font-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="length">
+    <xs:attribute name="value" type="xs:int" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="line">
+    <xs:sequence>
+      <xs:element name="coordinate" type="coordinate" minOccurs="2" maxOccurs="unbounded"/>
+      <xs:element name="depth" type="depth" minOccurs="0"/>
+      <xs:element name="style" type="style" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="general-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="offset">
+    <xs:attribute name="x" type="xs:int" use="required"/>
+    <xs:attribute name="y" type="xs:int" use="required"/>
+    <xs:attribute name="base-object" type="xs:IDREF" use="optional"/>
+    <xs:attribute name="node" type="xs:positiveInteger" use="optional"/>
+    <xs:attribute name="anchor" type="anchor" default="C" use="optional"/>
+    <xs:attribute name="base-location" type="xs:IDREF" use="optional"/>
+    <xs:attribute name="baseline-of" type="xs:IDREF" use="optional"/>
+    <xs:attribute name="mode" use="optional" default="center">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="start"/>
+          <xs:enumeration value="end"/>
+          <xs:enumeration value="center"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="point">
+    <xs:sequence>
+      <xs:element name="coordinate" type="coordinate"/>
+      <xs:element name="depth" type="depth" minOccurs="0"/>
+      <xs:element name="style" type="style" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="general-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="polygon">
+    <xs:sequence>
+      <xs:element name="coordinate" type="coordinate" minOccurs="2" maxOccurs="unbounded"/>
+      <xs:element name="depth" type="depth" minOccurs="0"/>
+      <xs:element name="style" type="style" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="general-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="polyline">
+    <xs:sequence>
+      <xs:element name="coordinate" type="coordinate" minOccurs="2" maxOccurs="unbounded"/>
+      <xs:element name="closed" type="boolean-value" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="depth" type="depth" minOccurs="0"/>
+      <xs:element name="style" type="style" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="general-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="radius">
+    <xs:complexContent>
+      <xs:extension base="center">
+        <xs:attribute name="length" type="xs:int" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="rectangle">
+    <xs:sequence>
+      <xs:element name="coordinate" type="coordinate" minOccurs="2" maxOccurs="2"/>
+      <xs:element name="round" type="round" minOccurs="0"/>
+      <xs:element name="depth" type="depth" minOccurs="0"/>
+      <xs:element name="style" type="style" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="general-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="round">
+    <xs:attributeGroup ref="location-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="shape">
+    <xs:sequence>
+      <xs:element name="coordinate" type="coordinate"/>
+      <xs:element name="shape-scale" type="shape-scale" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="uses" type="xs:IDREF" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="shape-scale">
+    <xs:attribute name="value" type="xs:double" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="square">
+    <xs:sequence>
+      <xs:element name="coordinate" type="coordinate"/>
+      <xs:element name="length" type="length"/>
+      <xs:element name="round" type="round" minOccurs="0"/>
+      <xs:element name="depth" type="depth" minOccurs="0"/>
+      <xs:element name="style" type="style" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="general-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="stroke">
+    <xs:attributeGroup ref="stroke-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="style">
+    <xs:sequence>
+      <xs:element name="arrow" type="arrow" minOccurs="0"/>
+      <xs:element name="color" type="color" minOccurs="0"/>
+      <xs:element name="fill-color" type="color" minOccurs="0"/>
+      <xs:element name="stroke" type="stroke" minOccurs="0"/>
+      <xs:element name="font" type="font" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID" use="optional"/>
+    <xs:attribute name="uses" type="xs:IDREF" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="text">
+    <xs:sequence>
+      <xs:element name="coordinate" type="coordinate"/>
+      <xs:element name="alignment" type="alignment"/>
+      <xs:element name="boxed" type="boolean-value"/>
+      <xs:element name="contents" type="contents" maxOccurs="unbounded"/>
+      <xs:element name="depth" type="depth" minOccurs="0"/>
+      <xs:element name="style" type="style" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="general-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="triangle">
+    <xs:sequence>
+      <xs:element name="coordinate" type="coordinate" minOccurs="3" maxOccurs="3"/>
+      <xs:element name="depth" type="depth" minOccurs="0"/>
+      <xs:element name="style" type="style" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="general-attributes"/>
+  </xs:complexType>
+
+  <xs:group name="all-graphics">
+    <xs:choice>
+      <xs:element name="arc" type="arc" minOccurs="0"/>
+      <xs:element name="circle" type="circle" minOccurs="0"/>
+      <xs:element name="circle-segment" type="circle-segment" minOccurs="0"/>
+      <xs:element name="ellipse" type="ellipse" minOccurs="0"/>
+      <xs:element name="line" type="line" minOccurs="0"/>
+      <xs:element name="point" type="point" minOccurs="0"/>
+      <xs:element name="polyline" type="polyline" minOccurs="0"/>
+      <xs:element name="polygon" type="polygon" minOccurs="0"/>
+      <xs:element name="rectangle" type="rectangle" minOccurs="0"/>
+      <xs:element name="square" type="square" minOccurs="0"/>
+      <xs:element name="text" type="text" minOccurs="0"/>
+      <xs:element name="triangle" type="triangle" minOccurs="0"/>
+      <xs:element name="shape" type="shape" minOccurs="0"/>
+    </xs:choice>
+  </xs:group>
+
+  <!-- xaal-animation.xsd ================================================= -->
+
+  <xs:complexType name="group">
+    <xs:sequence>
+      <xs:element name="object-ref" type="object-ref" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="animation-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="par">
+    <xs:sequence>
+      <xs:element name="narrative" type="xhtml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:group ref="all-operations" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="animation-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="pause">
+    <xs:attributeGroup ref="animation-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="seq">
+    <xs:sequence>
+      <xs:element name="narrative" type="xhtml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:group ref="all-operations" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="animation-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="sound">
+    <xs:sequence>
+      <xs:element name="narrative" type="xhtml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="timing" type="timing" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="src" type="xs:anyURI" use="required"/>
+    <xs:attribute name="repeat-count" type="xs:positiveInteger" use="optional" default="1"/>
+    <xs:attributeGroup ref="animation-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="swap-id">
+    <xs:attribute name="swap" type="xs:IDREF" use="required"/>
+    <xs:attribute name="with" type="xs:IDREF" use="required"/>
+    <xs:attributeGroup ref="animation-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="ungroup">
+    <xs:sequence>
+      <xs:element name="object-ref" type="object-ref" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="type" default="remove-selected">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="remove-all"/>
+          <xs:enumeration value="remove-selected"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attributeGroup ref="animation-attributes"/>
+  </xs:complexType>
+
+  <xs:group name="all-operations">
+    <xs:choice>
+      <xs:group ref="all-graphical-operations"/>
+      <xs:group ref="all-structure-operations"/>
+      <xs:group ref="all-questions"/>
+      <--<xs:element name="change-color" type="change-color" minOccurs="0"/>-->
+      <xs:element name="sound" type="sound" minOccurs="0"/>
+      <xs:element name="swap-id" type="swap-id" minOccurs="0"/>
+      <xs:element name="seq" type="seq" minOccurs="0"/>
+      <xs:element name="par" type="par" minOccurs="0"/>
+      <xs:element name="pause" type="pause" minOccurs="0"/>
+      <xs:element name="group" type="group" minOccurs="0"/>
+      <xs:element name="ungroup" type="ungroup" minOccurs="0"/>
+    </xs:choice>
+  </xs:group>
+
+  <!-- xaal-animation-common.xsd ========================================== -->
+
+  <xs:attributeGroup name="animation-attributes">
+    <xs:attribute name="id" type="xs:ID" use="optional"/>
+  </xs:attributeGroup>
+
+  <xs:complexType name="timing">
+    <xs:sequence>
+      <xs:element name="delay" type="timing-specification" minOccurs="0"/>
+      <xs:element name="duration" type="timing-specification" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="timing-specification">
+    <xs:attribute name="frames" type="xs:positiveInteger"/>
+    <xs:attribute name="ms" type="xs:positiveInteger"/>
+    <xs:attribute name="s" type="xs:positiveInteger"/>
+  </xs:complexType>
+
+  <!-- xaal-datatypes.xsd ================================================= -->
+
+  <xs:simpleType name="anchor">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="NW"/>
+      <xs:enumeration value="N"/>
+      <xs:enumeration value="NE"/>
+      <xs:enumeration value="E"/>
+      <xs:enumeration value="SE"/>
+      <xs:enumeration value="S"/>
+      <xs:enumeration value="SW"/>
+      <xs:enumeration value="W"/>
+      <xs:enumeration value="C"/>
+      <xs:enumeration value="CENTER"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="color-name">
+    <xs:restriction base="xs:token">
+      <xs:pattern value="maroon|red|orange|yellow|olive|purple|fuchsia|white|lime|green|navy|aqua|teal|black|silver|gray|blue"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="opacity">
+    <xs:restriction base="xs:double">
+      <xs:minInclusive value="0"/>
+      <xs:maxInclusive value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="rgb-value">
+    <xs:restriction base="xs:nonNegativeInteger">
+      <xs:maxInclusive value="255"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="stroke-type">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="dashed"/>
+      <xs:enumeration value="solid"/>
+      <xs:enumeration value="dotted"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- xaal-common.xsd ==================================================== -->
+  <xs:complexType name="contents" mixed="true">
+    <xs:attribute name="lang" type="xs:language"/>
+  </xs:complexType>
+
+  <xs:complexType name="object-ref">
+    <xs:attribute name="id" type="xs:IDREF" use="required"/>
+    <xs:attribute name="node" type="xs:integer" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="xhtml" mixed="true">
+    <xs:sequence>
+      <xs:any namespace="http://www.w3.org/1999/xhtml" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="lang" type="xs:language" use="optional"/>
+  </xs:complexType>
+
+  <!-- xaal-structure-animation.xsd ======================================= -->
+  <xs:complexType name="create">
+    <xs:complexContent>
+      <xs:extension base="structure-operation">
+        <xs:sequence maxOccurs="unbounded">
+          <xs:group ref="all-structures"/>
+          <xs:group ref="all-graphics"/>
+        </xs:sequence>
+        <xs:attribute name="target" type="xs:IDREF" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="delete">
+    <xs:complexContent>
+      <xs:extension base="structure-operation">
+        <xs:sequence>
+          <xs:group ref="all-structures" maxOccurs="unbounded"/>
+          <xs:element name="elementary" type="elementary" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="target" type="xs:IDREF"/>
+        <xs:attribute name="key" type="xs:token"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="elementary">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:group ref="elementary-operations"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="insert">
+    <xs:complexContent>
+      <xs:extension base="structure-operation">
+        <xs:sequence>
+          <xs:group ref="all-structures" maxOccurs="unbounded"/>
+          <xs:element name="elementary" type="elementary" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="target" type="xs:IDREF" use="required"/>
+        <xs:attribute name="source" type="xs:IDREF"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="remove">
+    <xs:complexContent>
+      <xs:extension base="structure-operation">
+        <xs:attribute name="target" type="xs:IDREFS" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="replace">
+    <xs:complexContent>
+      <xs:extension base="structure-operation">
+        <xs:sequence>
+          <xs:group ref="all-structures"/>
+        </xs:sequence>
+        <xs:attribute name="target" type="xs:IDREF" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="search">
+    <xs:complexContent>
+      <xs:extension base="structure-operation">
+        <xs:sequence>
+          <xs:group ref="all-structures" maxOccurs="unbounded"/>
+          <xs:element name="elementary" type="elementary" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="target" type="xs:IDREF"/>
+        <xs:attribute name="key" type="xs:token"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="structure-operation">
+    <xs:sequence>
+      <xs:element name="narrative" type="xhtml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="timing" type="timing" minOccurs="0"/>
+      <xs:element name="graphical" type="graphical" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="animation-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="swap">
+    <xs:complexContent>
+      <xs:extension base="structure-operation">
+        <xs:attribute name="swap" type="xs:IDREF" use="required"/>
+        <xs:attribute name="with" type="xs:IDREF" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:group name="all-structure-operations">
+    <xs:choice>
+      <xs:group ref="elementary-operations" minOccurs="0"/>
+      <xs:group ref="cdt-operations" minOccurs="0"/>
+    </xs:choice>
+  </xs:group>
+
+  <xs:group name="cdt-operations">
+    <xs:choice>
+      <xs:element name="delete" type="delete" minOccurs="0"/>
+      <xs:element name="insert" type="insert" minOccurs="0"/>
+      <xs:element name="search" type="search" minOccurs="0"/>
+    </xs:choice>
+  </xs:group>
+
+  <xs:group name="elementary-operations">
+    <xs:choice>
+      <xs:element name="create" type="create" minOccurs="0"/>
+      <xs:element name="remove" type="remove" minOccurs="0"/>
+      <xs:element name="replace" type="replace" minOccurs="0"/>
+      <xs:element name="swap" type="swap" minOccurs="0"/>
+    </xs:choice>
+  </xs:group>
+
+  <!-- xaal-structures.xsd ================================================ -->
+  <xs:attributeGroup name="orientation-attributes">
+    <xs:attribute name="orientation" use="optional" default="horizontal">
+      <xs:simpleType>
+        <xs:restriction base="xs:token">
+          <xs:enumeration value="horizontal"/>
+          <xs:enumeration value="vertical"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:attributeGroup>
+
+  <xs:attributeGroup name="structure-attributes">
+    <xs:attribute name="id" type="xs:ID" use="optional"/>
+    <xs:attribute name="style" type="xs:IDREF" use="optional"/>
+    <xs:attribute name="ref" type="xs:IDREF" use="optional"/>
+  </xs:attributeGroup>
+
+  <xs:complexType name="array">
+    <xs:complexContent>
+      <xs:extension base="base-structure">
+        <xs:sequence>
+          <xs:element name="index" type="index" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="indexed" type="xs:boolean" use="optional" default="true"/>
+        <xs:attribute name="size" type="xs:int" use="optional"/>
+        <xs:attributeGroup ref="orientation-attributes"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="base-structure" abstract="true">
+    <xs:sequence>
+      <xs:element name="narrative" type="xhtml" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="structure-property" type="structure-property" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="coordinate" type="coordinate" minOccurs="0"/>
+      <xs:element name="style" type="style" minOccurs="0"/>
+      <xs:element name="graphical" type="graphical" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="structure-attributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="binedge">
+    <xs:complexContent>
+      <xs:extension base="edge">
+        <xs:attribute name="child" type="child-type" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="bintree">
+    <xs:complexContent>
+      <xs:extension base="base-structure">
+        <xs:group ref="bin-node-or-edge" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:attribute name="root" type="xs:IDREF" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="edge">
+    <xs:complexContent>
+      <xs:extension base="base-structure">
+        <xs:attribute name="from" type="xs:IDREF" use="required"/>
+        <xs:attribute name="to" type="xs:IDREF" use="required"/>
+        <xs:attribute name="directed" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="label" type="xs:token" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="graph">
+    <xs:complexContent>
+      <xs:extension base="base-structure">
+        <xs:group ref="node-or-edge" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="graphical">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:group ref="all-graphics"/>
+      <xs:group ref="all-graphical-operations"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="index">
+    <xs:complexContent>
+      <xs:extension base="node">
+        <xs:attribute name="index" type="xs:int"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="key">
+    <xs:complexContent>
+      <xs:extension base="base-structure">
+        <xs:attribute name="value" type="xs:token" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="list">
+    <xs:complexContent>
+      <xs:extension base="base-structure">
+        <xs:group ref="node-or-edge" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:attributeGroup ref="orientation-attributes"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="marker">
+    <xs:complexContent>
+      <xs:extension base="base-structure">
+        <xs:attribute name="target" type="xs:IDREF" use="required"/>
+        <xs:attribute name="label" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="node">
+    <xs:complexContent>
+      <xs:extension base="base-structure">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+          <xs:group ref="structures" minOccurs="0"/>
+          <xs:element name="key" type="key" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute name="label" type="xs:token" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="structure-property" mixed="true">
+    <xs:attribute name="name" type="xs:token" use="required"/>
+    <xs:attribute name="value" type="xs:string" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="tree">
+    <xs:complexContent>
+      <xs:extension base="base-structure">
+        <xs:group ref="node-or-edge" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:attribute name="root" type="xs:IDREF" use="optional"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:group name="all-structures">
+    <xs:sequence>
+      <xs:group ref="structures" minOccurs="0"/>
+      <xs:group ref="node-or-edge" minOccurs="0"/>
+      <xs:element name="key" type="key" minOccurs="0"/>
+      <xs:element name="index" type="index" minOccurs="0"/>
+      <xs:element name="marker" type="marker" minOccurs="0"/>
+    </xs:sequence>
+  </xs:group>
+
+  <xs:group name="bin-node-or-edge">
+    <xs:choice>
+      <xs:element name="node" type="node" minOccurs="0"/>
+      <xs:element name="edge" type="binedge" minOccurs="0"/>
+    </xs:choice>
+  </xs:group>
+
+  <xs:group name="node-or-edge">
+    <xs:choice>
+      <xs:element name="node" type="node" minOccurs="0"/>
+      <xs:element name="edge" type="edge" minOccurs="0"/>
+    </xs:choice>
+  </xs:group>
+
+  <xs:group name="structures">
+    <xs:choice>
+      <xs:element name="array" type="array" minOccurs="0"/>
+      <xs:element name="graph" type="graph" minOccurs="0"/>
+      <xs:element name="list" type="list" minOccurs="0"/>
+      <!-- <xs:element name="queue" type="queue" minOccurs="0"/> <xs:element name="stack" type="stack" minOccurs="0"/> -->
+      <xs:element name="tree" type="tree" minOccurs="0"/>
+      <xs:element name="bintree" type="bintree" minOccurs="0"/>
+    </xs:choice>
+  </xs:group>
+
+  <xs:simpleType name="child-type">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="left"/>
+      <xs:enumeration value="right"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- xaal-interaction.xsd =============================================== -->
+
+  <xs:attributeGroup name="questionAttributes">
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+    <xs:attribute name="random" type="xs:int"/>
+    <xs:attribute name="solutionId" type="xs:string"/>
+  </xs:attributeGroup>
+
+  <xs:complexType name="fill">
+    <xs:complexContent>
+      <xs:extension base="select"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="questionContents" mixed="true">
+    <xs:sequence maxOccurs="unbounded">
+      <xs:element name="object-ref" type="object-ref" maxOccurs="unbounded" minOccurs="0"/>
+      <xs:sequence>
+        <xs:any namespace="http://www.w3.org/1999/xhtml" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:element name="input" type="questionInput" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="type" type="contentsType" use="required"/>
+    <xs:attribute name="lang" type="xs:language" use="optional"/>
+  </xs:complexType>
+
+  <xs:complexType name="questionInput">
+    <xs:attribute name="answer" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="questionItem">
+    <xs:sequence>
+      <xs:element name="contents" type="questionContents" maxOccurs="unbounded" minOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:ID" use="required"/>
+    <xs:attribute name="grade" type="xs:double"/>
+  </xs:complexType>
+
+  <xs:complexType name="questionMetadata"/>
+
+  <xs:complexType name="select">
+    <xs:sequence>
+      <xs:element name="metadata" type="questionMetadata" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="contents" type="questionContents" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="item" type="questionItem" minOccurs="2" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="questionAttributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="select-one">
+    <xs:complexContent>
+      <xs:extension base="select"/>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:group name="all-questions">
+    <xs:choice>
+      <xs:element name="select-one" type="select-one" minOccurs="0"/>
+      <xs:element name="select" type="select" minOccurs="0"/>
+    </xs:choice>
+  </xs:group>
+
+  <xs:simpleType name="contentsType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="answer"/>
+      <xs:enumeration value="feedback"/>
+      <xs:enumeration value="label"/>
+      <xs:enumeration value="hint"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
