@@ -31,11 +31,21 @@ http://demo.villekaravirta.com/jsxaal/doc/example.html .
 Building the JavaScript requires [Ruby](https://www.ruby-lang.org/en/) and
 [rake-compiler](https://github.com/rake-compiler/rake-compiler/).
 
-In theory, the following should do the thing:
+The following command combines `*.js` files from `src/` into `dist/jsxaal-core.js`.
 
-`rake compile`
+`rake dist`
+
+Note that the file `Rakefile` is the currently working version of older
+`Rakefile.original`. The latter has the following problems when tested in 2021.
+- the `test` rake target is broken (missing files)
+- `bin/jsmin.rb` causes an ArgumentError.
+- [jsmin](https://www.ruby-toolbox.com/projects/jsmin) could be replaced
+  with something else.
+
+For quick development, one can have the Python web server running at one
+terminal and build the JavaScript at the same time on another terminal.
 
 ## Authors
 
-The software is made by Ville Karavirta in 2009.
-This README file is made by Artturi Tilanterä in 2021.
+- The software is made by Ville Karavirta in 2009.
+- This README file is made by Artturi Tilanterä in 2021.

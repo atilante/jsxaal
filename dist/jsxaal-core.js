@@ -2388,8 +2388,8 @@ var JSAnimator = Class.create({
 		if (this.progressBar) {
 			this.progressBar.setSelection(this.backwardStack.size());
 			var counter = $(this.id + '-counter');
-			counter.update((this.backwardStack.size() + 1) + '/' + (this.backwardStack.size() + 
-				this.forwardStack.size() + 1)); 
+			counter.update((this.backwardStack.size() + 1) + '/' + (this.backwardStack.size() +
+				this.forwardStack.size() + 1));
 		}
 	},
 	createSlider: function() {
@@ -2399,8 +2399,8 @@ var JSAnimator = Class.create({
 		try {
 			this.progressBar = new ProgressBar(this.id + '-slider', {classProgressBar: 'jsxaal-sliderelem', style: ProgressBar.DETERMINATE, maximum: this.backwardStack.length+this.forwardStack.length, selection: 0, color: {r: 128, g: 128, b: 128}});
 				var counter = $(this.id + '-counter');
-				counter.update('1/' + (this.backwardStack.size() + 
-					this.forwardStack.size() + 1)); 
+				counter.update('1/' + (this.backwardStack.size() +
+					this.forwardStack.size() + 1));
 		} catch(exp) {
 			$(this.id + '-slider').remove();
 		}
@@ -2436,8 +2436,8 @@ var JSAnimator = Class.create({
 				eff += "new Effect.Parallel([";
 			} else if (this.effects[i][1] == 'endpar') {
 				eff += "]";
-				eff += ", {afterFinish:function() {"; 
-				
+				eff += ", {afterFinish:function() {";
+
 				//eff +=");";
 				parCount++;
 				effCount = 0;
@@ -2495,7 +2495,7 @@ var JSAnimator = Class.create({
 			el.appendChild(this.fwButton);
 		}
 	},
-	/** 
+	/**
 	 * @function {public void} ?
 	 * @param {Object} narrativeText
 	 */
@@ -2561,7 +2561,7 @@ var JSAnimator = Class.create({
 		var newHeight = options.scale*mainDrawingPanel.getHeight();
 		elem.setStyle({width: options.scale*mainDrawingPanel.getWidth() + 'px', height:options.scale*mainDrawingPanel.getHeight() + 'px'});
 		elem.setStyle({paddingTop: (mainDrawingPanel.getHeight() - newHeight)/2 + 'px'});
-		
+
 		if (stepDiff < 0) {
 			mainDrawingPanel.insert({before: elem});
 		} else {
@@ -2588,7 +2588,8 @@ var JSAnimator = Class.create({
 		this.minStepViewer = Math.min(this.minStepViewer, stepDiff);
 		this.maxStepViewer = Math.max(this.maxStepViewer, stepDiff);
 	}
-});/**
+});
+/**
  * This file contains the settings class for the JSXaal viewer.
  * @file jsxaal-viewersettings.js
  */
