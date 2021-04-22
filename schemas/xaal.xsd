@@ -65,7 +65,7 @@
       <xs:element name="firstname" type="xs:string"/>
       <xs:element name="lastname" type="xs:string"/>
       <xs:element name="affiliation" type="xs:string" minOccurs="0"/>
-      <xs:element name="email" type="xs:string" minOccurs="0"/>0
+      <xs:element name="email" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -557,7 +557,7 @@
       <xs:group ref="all-graphical-operations"/>
       <xs:group ref="all-structure-operations"/>
       <xs:group ref="all-questions"/>
-      <--<xs:element name="change-color" type="change-color" minOccurs="0"/>-->
+      <!-- <xs:element name="change-color" type="change-color" minOccurs="0"/> -->
       <xs:element name="sound" type="sound" minOccurs="0"/>
       <xs:element name="swap-id" type="swap-id" minOccurs="0"/>
       <xs:element name="seq" type="seq" minOccurs="0"/>

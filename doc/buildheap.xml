@@ -73,27 +73,27 @@
     </tree>
   </initial>
   <animation>
-    <!-- swap-id operation is defined in XAAL, but JsXaal doesn't support it -->
+    <!-- swap operation is defined in XAAL, but JsXaal doesn't support it -->
     <seq>
-      <swap-id swap="tree4" swap-with="tree9" />
+      <swap swap="tree4" with="tree9" />
     </seq>
     <seq>
-      <swap-id swap="tree3" swap-with="tree7" />
+      <swap swap="tree3" with="tree7" />
     </seq>
     <seq>
-      <swap-id swap="tree2" swap-with="tree6" />
+      <swap swap="tree2" with="tree6" />
     </seq>
     <seq>
-      <swap-id swap="tree1" swap-with="tree3" />
+      <swap swap="tree1" with="tree3" />
     </seq>
     <seq>
-      <swap-id swap="tree3" swap-with="tree7" />
+      <swap swap="tree3" with="tree7" />
     </seq>
     <seq>
-      <swap-id swap="tree0" swap-with="tree1" />
+      <swap swap="tree0" with="tree1" />
     </seq>
     <seq>
-      <swap-id swap="tree1" swap-with="tree4" />
+      <swap swap="tree1" with="tree4" />
     </seq>
   </animation>
 </xaal>

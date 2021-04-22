@@ -1,0 +1,26 @@
+﻿<xaal version="0.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="/u/79/atilante/unix/ohj/xaal/jsxaal-atilante/schemas/xaal.xsd">
+<initial>
+<array indexed="true">
+<index index="0"><key value="E" id="key1"/></index>
+<index index="1"><key value="X" id="key2"/></index>
+<index index="2"><key value="A" id="key3"/></index>
+<index index="3"><key value="M" id="key4"/></index>
+<index index="4"><key value="P" id="key5"/></index>
+<index index="5"><key value="L" id="key6"/></index>
+<index index="6"><key value="E" id="key7"/></index>
+</array>
+<tree id="tree" root="node1">
+<structure-property name="class" value="matrix.structures.CDT.probe.
+BinSearchTree"/>
+<node id="node1"><key value="E"/></node>
+<node id="node2"><key value="X"/></node>
+<edge from="node1" to="node2"/>
+</tree>
+</initial>
+<animation>
+<insert source="key3" target="tree"/>
+<insert source="key4" target="tree"/>
+<delete key="X" target="tree"/>
+<swap swap="key1" with="key2"/>
+</animation>
+</xaal>
