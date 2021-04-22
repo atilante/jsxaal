@@ -13,7 +13,7 @@
   <defs>
   </defs>
   <initial>
-    <array>
+    <array orientation="horizontal">
       <structure-property name="name" value="Heap array" />
       <coordinate x="150" y="0" />
       <index id="array0"><key value="28"></key></index>
@@ -58,6 +58,7 @@
         <key value="46" />
       </node>
       <node id="tree9">
+        <coordinate x="105" y="210" />
         <key value="18" />
       </node>
       <edge from="tree0" to="tree1" />
@@ -72,10 +73,27 @@
     </tree>
   </initial>
   <animation>
-    <par>
-      <create>
-        <narrative>Build-heap Example</narrative>
-      </create>
-    </par>
+    <!-- swap-id operation is defined in XAAL, but JsXaal doesn't support it -->
+    <seq>
+      <swap-id swap="tree4" swap-with="tree9" />
+    </seq>
+    <seq>
+      <swap-id swap="tree3" swap-with="tree7" />
+    </seq>
+    <seq>
+      <swap-id swap="tree2" swap-with="tree6" />
+    </seq>
+    <seq>
+      <swap-id swap="tree1" swap-with="tree3" />
+    </seq>
+    <seq>
+      <swap-id swap="tree3" swap-with="tree7" />
+    </seq>
+    <seq>
+      <swap-id swap="tree0" swap-with="tree1" />
+    </seq>
+    <seq>
+      <swap-id swap="tree1" swap-with="tree4" />
+    </seq>
   </animation>
 </xaal>
