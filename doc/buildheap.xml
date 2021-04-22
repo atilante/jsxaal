@@ -1,0 +1,81 @@
+<!-- Artturi's Build-heap experiment -->
+
+<xaal version="1.0" xmlns="http://www.cs.hut.fi/Research/SVG/XAAL"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.cs.hut.fi/Research/SVG/XAAL xaal.xsd">
+  <metadata>
+    <author>
+      <firstname>Artturi</firstname>
+      <lastname>Tilanterä</lastname>
+      <email>artturi.tilantera@aalto.fi</email>
+    </author>
+  </metadata>
+  <defs>
+  </defs>
+  <initial>
+    <array>
+      <structure-property name="name" value="Heap array" />
+      <coordinate x="150" y="0" />
+      <index id="array0"><key value="28"></key></index>
+      <index id="array1"><key value="90"></key></index>
+      <index id="array2"><key value="41"></key></index>
+      <index id="array3"><key value="21"></key></index>
+      <index id="array4"><key value="70"></key></index>
+      <index id="array5"><key value="82"></key></index>
+      <index id="array6"><key value="34"></key></index>
+      <index id="array7"><key value="16"></key></index>
+      <index id="array8"><key value="46"></key></index>
+      <index id="array9"><key value="18"></key></index>
+    </array>
+    <tree root="tree0">
+      <structure-property name="name" value="Heap tree" />
+      <coordinate x="150" y="120" />
+      <node id="tree0">
+        <key value="28" />
+      </node>
+      <node id="tree1">
+        <key value="90" />
+      </node>
+      <node id="tree2">
+        <key value="41" />
+      </node>
+      <node id="tree3">
+        <key value="21" />
+      </node>
+      <node id="tree4">
+        <key value="70" />
+      </node>
+      <node id="tree5">
+        <key value="82" />
+      </node>
+      <node id="tree6">
+        <key value="34" />
+      </node>
+      <node id="tree7">
+        <key value="16" />
+      </node>
+      <node id="tree8">
+        <key value="46" />
+      </node>
+      <node id="tree9">
+        <key value="18" />
+      </node>
+      <edge from="tree0" to="tree1" />
+      <edge from="tree0" to="tree2" />
+      <edge from="tree1" to="tree3" />
+      <edge from="tree1" to="tree4" />
+      <edge from="tree2" to="tree5" />
+      <edge from="tree2" to="tree6" />
+      <edge from="tree3" to="tree7" />
+      <edge from="tree3" to="tree8" />
+      <edge from="tree4" to="tree9" />
+    </tree>
+  </initial>
+  <animation>
+    <par>
+      <create>
+        <narrative>Build-heap Example</narrative>
+      </create>
+    </par>
+  </animation>
+</xaal>
